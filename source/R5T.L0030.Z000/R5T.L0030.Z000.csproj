@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1573;1587;1591</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\R5T.T0181\source\R5T.T0181\R5T.T0181.csproj" />
+    <ProjectReference Include="..\..\..\R5T.F0120\source\R5T.F0120\R5T.F0120.csproj" />
+    <ProjectReference Include="..\R5T.L0030\R5T.L0030.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Files\R5T.L0030.Z000\Example01.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
