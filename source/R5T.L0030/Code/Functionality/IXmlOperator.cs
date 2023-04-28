@@ -35,13 +35,29 @@ namespace R5T.L0030
         /// </summary>
         public XmlWriter Get_Writer(IXmlFilePath xmlFilePath, XmlWriterSettings settings)
         {
+            Instances.FileSystemOperator.EnsureDirectoryForFilePathExists(
+                xmlFilePath.Value);
+
             var output = XmlWriter.Create(xmlFilePath.Value, settings);
+            return output;
+        }
+
+        public XmlWriter Get_Writer_Synchronous(IXmlFilePath xmlFilePath)
+        {
+            var settings = this.Get_WriterSettings_Standard();
+
+            var output = this.Get_Writer(
+                xmlFilePath,
+                settings);
+
             return output;
         }
 
         public XmlWriter Get_Writer(IXmlFilePath xmlFilePath)
         {
             var settings = this.Get_WriterSettings_Standard();
+
+            settings.Async = true;
 
             var output = this.Get_Writer(
                 xmlFilePath,
@@ -103,10 +119,22 @@ namespace R5T.L0030
                 document);
         }
 
+        /// <inheritdoc cref="Save{TNode}(IXmlFilePath, TNode)"/>
+        public void Save_Synchronous<TNode>(
+            IXmlFilePath filePath,
+            TNode node)
+            where TNode : XNode
+        {
+            using var writer = this.Get_Writer_Synchronous(filePath);
+
+            // Need an XML writer.
+            node.WriteTo(writer);
+        }
+
         /// <summary>
         /// Saves an arbitrary <see cref="XNode"/> to an XML file.
         /// </summary>
-        public void Save_Synchronous<TNode>(
+        public async Task Save<TNode>(
             IXmlFilePath filePath,
             TNode node)
             where TNode : XNode
@@ -115,6 +143,8 @@ namespace R5T.L0030
 
             // Need an XML writer.
             node.WriteTo(writer);
+
+            await writer.FlushAsync();
         }
     }
 }
