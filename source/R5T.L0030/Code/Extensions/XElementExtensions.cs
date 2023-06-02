@@ -47,6 +47,12 @@ namespace R5T.L0030.Extensions
             return Instances.XElementOperator.Get_AttributeValue(element, attributeName);
         }
 
+        public static string Get_Name(this XElement xElement)
+        {
+            var name = Instances.XElementOperator.Get_Name(xElement);
+            return name;
+        }
+
         /// <inheritdoc cref="IXElementOperator.Is_Name(XElement, IElementName)"/>
         public static bool Is_Name(this XElement element,
             IElementName elementName)

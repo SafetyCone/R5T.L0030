@@ -16,6 +16,22 @@ namespace R5T.L0030.Extensions
             return Instances.XContainerOperator.Acquire_Child(container, elementName);
         }
 
+        public static void Add_Children(this XContainer container,
+            IEnumerable<object> children)
+        {
+            Instances.XContainerOperator.Add_Children(
+                container,
+                children);
+        }
+
+        public static void Add_Children(this XContainer container,
+            params object[] children)
+        {
+            Instances.XContainerOperator.Add_Children(
+                container,
+                children);
+        }
+
         public static XElement Add_Child(this XContainer container,
             IElementName childName,
             string childValue)
@@ -80,6 +96,47 @@ namespace R5T.L0030.Extensions
                 childName,
                 attributeName,
                 attributeValue);
+        }
+
+        /// <inheritdoc cref="IXContainerOperator.OrderChildren_ByNames(XContainer, string[])"/>
+        public static void OrderChildren_ByNames(this XContainer container,
+            IEnumerable<string> names)
+        {
+            Instances.XContainerOperator.OrderChildren_ByNames(
+                container,
+                names);
+        }
+
+        /// <inheritdoc cref="IXContainerOperator.OrderChildren_ByNames(XContainer, string[])"/>
+        public static void OrderChildren_ByNames(this XContainer container,
+            params string[] names)
+        {
+            Instances.XContainerOperator.OrderChildren_ByNames(
+                container,
+                names);
+        }
+
+        /// <inheritdoc cref="IXContainerOperator.OrderChildren_ByNames(XContainer, string[])"/>
+        public static void OrderChildren_ByNames(this XContainer container,
+            IEnumerable<IElementName> names)
+        {
+            Instances.XContainerOperator.OrderChildren_ByNames(
+                container,
+                names);
+        }
+
+        /// <inheritdoc cref="IXContainerOperator.OrderChildren_ByNames(XContainer, string[])"/>
+        public static void OrderChildren_ByNames(this XContainer container,
+            params IElementName[] names)
+        {
+            Instances.XContainerOperator.OrderChildren_ByNames(
+                container,
+                names);
+        }
+
+        public static void RemoveAll_Children(this XContainer container)
+        {
+            Instances.XContainerOperator.RemoveAll_Children(container);
         }
     }
 }

@@ -9,7 +9,8 @@ using R5T.T0181;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
-
+using R5T.T0203;
+using System.Text;
 
 namespace R5T.L0030
 {
@@ -25,7 +26,7 @@ namespace R5T.L0030
         public XmlWriterSettings Get_WriterSettings_Standard()
         {
             var output = new XmlWriterSettings()
-                .Set_Standard();
+                .Set_Standard_Synchronous();
 
             return output;
         }
@@ -145,6 +146,26 @@ namespace R5T.L0030
             node.WriteTo(writer);
 
             await writer.FlushAsync();
+        }
+
+        public string WriteTo_Text_Synchronous(
+            XElement xElement,
+            XmlWriterSettings writerSettings)
+        {
+            var output = Instances.XElementOperator.WriteTo_Text_Synchronous(
+                xElement,
+                writerSettings);
+
+            return output;
+        }
+
+        public Task<string> WriteTo_Text(
+            XElement xElement,
+            XmlWriterSettings writerSettings)
+        {
+            return Instances.XElementOperator.WriteTo_Text(
+                xElement,
+                writerSettings);
         }
     }
 }

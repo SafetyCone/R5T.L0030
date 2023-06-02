@@ -8,7 +8,10 @@ using R5T.T0132;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
-
+using R5T.T0203;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace R5T.L0030
 {
@@ -53,6 +56,16 @@ namespace R5T.L0030
             element.Add(child);
         }
 
+        public void Clear_Children(XElement element)
+        {
+            Instances.XContainerOperator.Clear_Children(element);
+        }
+
+        public void RemoveAll_Children(XElement element)
+        {
+            Instances.XContainerOperator.RemoveAll_Children(element);
+        }
+
         public IEnumerable<XAttribute> Get_Attributes(XElement element)
         {
             return element.Attributes();
@@ -66,6 +79,12 @@ namespace R5T.L0030
 
             var output = attribute.Value;
             return output;
+        }
+
+        public string Get_Name(XElement xElement)
+        {
+            var name = xElement.Name.LocalName;
+            return name;
         }
 
         public WasFound<XAttribute> Has_Attribute_First(XElement element, IAttributeName attributeName)
@@ -107,6 +126,39 @@ namespace R5T.L0030
             return output;
         }
 
+        public XElement New(
+            IElementName elementName,
+            params object[] contents)
+        {
+            var output = new XElement(
+                elementName.Value,
+                contents);
+
+            return output;
+        }
+
+        public XElement Parse(
+            string xmlText,
+            LoadOptions loadOptions = ILoadOptionSets.Default_Constant)
+        {
+            var output = XElement.Parse(
+                xmlText,
+                loadOptions);
+
+            return output;
+        }
+
+        public XElement Parse(
+            IXmlText xmlText,
+            LoadOptions loadOptions = ILoadOptionSets.Default_Constant)
+        {
+            var output = this.Parse(
+                xmlText.Value,
+                loadOptions);
+
+            return output;
+        }
+
         public IEnumerable<XElement> Where_NameIs(IEnumerable<XElement> elements, IElementName elementName)
         {
             var output = elements
@@ -114,6 +166,58 @@ namespace R5T.L0030
                 ;
 
             return output;
+        }
+
+        public string WriteTo_Text_Synchronous(
+            XElement xElement,
+            XmlWriterSettings writerSettings)
+        {
+            var stringBuilder = new StringBuilder();
+
+            using (var xmlWriter = XmlWriter.Create(stringBuilder, writerSettings))
+            {
+                xElement.WriteTo(xmlWriter);
+            }
+
+            var output = stringBuilder.ToString();
+            return output;
+        }
+
+        public string WriteTo_Text_Synchronous(XElement xElement)
+        {
+            var writerSettings = Instances.XmlWriterSettingSets.Standard;
+
+            var output = this.WriteTo_Text_Synchronous(
+                xElement,
+                writerSettings);
+
+            return output;
+        }
+
+        public async Task<string> WriteTo_Text(
+            XElement xElement,
+            XmlWriterSettings writerSettings)
+        {
+            var stringBuilder = new StringBuilder();
+
+            using (var xmlWriter = XmlWriter.Create(stringBuilder, writerSettings))
+            {
+                await xElement.WriteToAsync(
+                    xmlWriter,
+                    Instances.CancellationTokens.None);
+            }
+
+            var output = stringBuilder.ToString();
+            return output;
+        }
+
+        public Task<string> WriteTo_Text(XElement xElement)
+        {
+            var writerSettings = Instances.XmlWriterSettingSets.Standard;
+
+            return this.WriteTo_Text(
+                xElement,
+                writerSettings);
         }
     }
 }

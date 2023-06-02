@@ -8,6 +8,7 @@ using R5T.T0132;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
+using R5T.T0179.Extensions;
 
 
 namespace R5T.L0030
@@ -46,6 +47,26 @@ namespace R5T.L0030
             container.Add(child);
 
             return child;
+        }
+
+        public void Add_Children(XContainer container,
+            IEnumerable<object> children)
+        {
+            this.Add_Children(
+                container,
+                // Use the array method as the base.
+                children.Now());
+        }
+
+        public void Add_Children(XContainer container,
+            params object[] children)
+        {
+            container.Add(children);
+        }
+
+        public void Clear_Children(XContainer container)
+        {
+            this.RemoveAll_Children(container);
         }
 
         /// <summary>
@@ -91,19 +112,6 @@ namespace R5T.L0030
         public WasFound<XElement> Has_Child(XContainer container, IElementName childName)
         {
             return this.Has_Child_First(container, childName);
-        }
-
-        public WasFound<XElement> Has_ChildWithChild_First(XContainer container,
-            IElementName childName,
-            IElementName grandChildName)
-        {
-            var childOrDefault = container.Get_Children()
-                .Where_NameIs(childName)
-                .Where(child => child.Has_Child_Any(grandChildName))
-                .FirstOrDefault();
-
-            var output = WasFound.From(childOrDefault);
-            return output;
         }
 
         /// <summary>
@@ -153,6 +161,77 @@ namespace R5T.L0030
                 childName,
                 attributeName,
                 attributeValue);
+        }
+
+        public WasFound<XElement> Has_ChildWithChild_First(XContainer container,
+            IElementName childName,
+            IElementName grandChildName)
+        {
+            var childOrDefault = container.Get_Children()
+                .Where_NameIs(childName)
+                .Where(child => child.Has_Child_Any(grandChildName))
+                .FirstOrDefault();
+
+            var output = WasFound.From(childOrDefault);
+            return output;
+        }
+
+        /// <summary>
+        /// Orders child nodes by name.
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="F0000.IOrderOperator.OrderByNames{TElement}(IEnumerable{TElement}, Func{TElement, string}, string[])" path="/summary"/>
+        /// </remarks>
+        public void OrderChildren_ByNames(
+            XContainer container,
+            IEnumerable<string> names)
+        {
+            var children = container.Get_Children();
+
+            var orderedChildren = Instances.OrderOperator.OrderByNames(
+                children,
+                child => child.Get_Name(),
+                names
+            );
+
+            container.RemoveAll_Children();
+
+            container.Add_Children(orderedChildren);
+        }
+
+        /// <inheritdoc cref="OrderChildren_ByNames(XContainer, IEnumerable{string})"/>
+        public void OrderChildren_ByNames(
+            XContainer container,
+            params string[] names)
+        {
+            this.OrderChildren_ByNames(
+                container,
+                names.AsEnumerable());
+        }
+
+        public void OrderChildren_ByNames(
+            XContainer container,
+            IEnumerable<IElementName> names)
+        {
+            var nameValues = names.Get_Values();
+
+            this.OrderChildren_ByNames(
+                container,
+                nameValues);
+        }
+
+        public void OrderChildren_ByNames(
+            XContainer container,
+            params IElementName[] names)
+        {
+            this.OrderChildren_ByNames(
+                container,
+                names.AsEnumerable());
+        }
+
+        public void RemoveAll_Children(XContainer container)
+        {
+            container.RemoveNodes();
         }
     }
 }

@@ -1,0 +1,15 @@
+True: Asynchronous
+True: Check characters
+False: Close output
+Document: Conformance level
+False: Do not escape URI attributes
+Unicode (UTF-8): Encoding
+True: Indent
+\space\space: Indent characters
+Default: Namespace handling
+\r\n: New-line characters
+Replace: New-line handling
+False: New-line on attributes
+True: Omit XML declaration
+Xml: Output method
+True: Write end-of-document on close
