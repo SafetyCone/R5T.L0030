@@ -61,6 +61,17 @@ namespace R5T.L0030
             Instances.XContainerOperator.Clear_Children(element);
         }
 
+        public IEnumerable<XElement> Get_ChildrenWithName(
+            XElement element,
+            IElementName elementName)
+        {
+            var output = element.Get_Children()
+                .Where(child => child.Name_Is(elementName))
+                ;
+
+            return output;
+        }
+
         public void RemoveAll_Children(XElement element)
         {
             Instances.XContainerOperator.RemoveAll_Children(element);
