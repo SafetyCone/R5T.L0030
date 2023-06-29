@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 
+using R5T.F0000;
 using R5T.L0030.T000;
 
 
@@ -15,18 +16,14 @@ namespace R5T.L0030.Extensions
             return Instances.XElementOperator.Acquire_Attribute(element, attributeName);
         }
 
-        public static XElement Add_Attribute(this XElement element, IAttributeName attributeName)
+        public static XAttribute Add_Attribute(this XElement element, IAttributeName attributeName)
         {
-            Instances.XElementOperator.Add_Attribute(element, attributeName);
-
-            return element;
+            return Instances.XElementOperator.Add_Attribute(element, attributeName);
         }
 
-        public static XElement Add_Attribute(this XElement element, IAttributeName attributeName, object value)
+        public static XAttribute Add_Attribute(this XElement element, IAttributeName attributeName, object value)
         {
-            Instances.XElementOperator.Add_Attribute(element, attributeName, value);
-
-            return element;
+            return Instances.XElementOperator.Add_Attribute(element, attributeName, value);
         }
 
         public static XElement Add_Child(this XElement element, XElement child)
@@ -51,6 +48,14 @@ namespace R5T.L0030.Extensions
         {
             var name = Instances.XElementOperator.Get_Name(xElement);
             return name;
+        }
+
+        public static WasFound<XAttribute> Has_Attribute(this XElement element,
+            IAttributeName attributeName)
+        {
+            return Instances.XElementOperator.Has_Attribute(
+                element,
+                attributeName);
         }
 
         /// <inheritdoc cref="IXElementOperator.Is_Name(XElement, IElementName)"/>

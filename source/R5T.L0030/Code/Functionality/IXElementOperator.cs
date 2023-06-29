@@ -1,17 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 
 using R5T.F0000;
 using R5T.T0132;
+using R5T.T0181;
+using R5T.T0203;
+using R5T.T0203.Extensions;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
-using R5T.T0203;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+using System.Xml.Serialization;
 
 namespace R5T.L0030
 {
@@ -61,6 +64,28 @@ namespace R5T.L0030
             Instances.XContainerOperator.Clear_Children(element);
         }
 
+        public XElement From_Text(string xmlText)
+        {
+            return this.Parse(xmlText);
+        }
+
+        public XElement From(IXmlText xmlText)
+        {
+            return this.Parse(xmlText);
+        }
+
+        public async Task<XElement> From(IXmlFilePath xmlFilePath)
+        {
+            using var fileStream = Instances.FileStreamOperator.NewRead(xmlFilePath.Value);
+
+            var output = await XElement.LoadAsync(
+                fileStream,
+                Instances.LoadOptionSets.Default,
+                Instances.CancellationTokens.None);
+
+            return output;
+        }
+
         public IEnumerable<XElement> Get_ChildrenWithName(
             XElement element,
             IElementName elementName)
@@ -98,6 +123,12 @@ namespace R5T.L0030
             return name;
         }
 
+        public string Get_Value(XElement element)
+        {
+            var output = element.Value;
+            return output;
+        }
+
         public WasFound<XAttribute> Has_Attribute_First(XElement element, IAttributeName attributeName)
         {
             var attributeOrDefault = this.Get_Attributes(element)
@@ -122,6 +153,16 @@ namespace R5T.L0030
         public bool Is_Name(XElement element, IElementName elementName)
         {
             var output = element.Name.LocalName == elementName.Value;
+            return output;
+        }
+
+        public bool Is_Value(
+            XElement element,
+            string value)
+        {
+            var elementValue = this.Get_Value(element);
+
+            var output = elementValue == value;
             return output;
         }
 
@@ -170,6 +211,11 @@ namespace R5T.L0030
             return output;
         }
 
+        public void Set_Value(XElement element, string value)
+        {
+            element.Value = value;
+        }
+
         public IEnumerable<XElement> Where_NameIs(IEnumerable<XElement> elements, IElementName elementName)
         {
             var output = elements
@@ -179,7 +225,51 @@ namespace R5T.L0030
             return output;
         }
 
-        public string WriteTo_Text_Synchronous(
+        public async Task To_File(
+            IXmlFilePath xmlFilePath,
+            XElement xElement,
+            XmlWriterSettings xmlWriterSettings)
+        {
+            using var fileStream = Instances.FileStreamOperator.NewWrite(xmlFilePath.Value);
+            using var xmlWriter = XmlWriter.Create(fileStream, xmlWriterSettings);
+
+            await xElement.SaveAsync(
+                xmlWriter,
+                Instances.CancellationTokens.None);
+        }
+
+        public Task To_File(
+            IXmlFilePath xmlFilePath,
+            XElement xElement)
+        {
+            return this.To_File(
+                xmlFilePath,
+                xElement,
+                Instances.XmlWriterSettingSets.Standard);
+        }
+
+        public void To_File_Synchronous(
+            IXmlFilePath xmlFilePath,
+            XElement xElement,
+            XmlWriterSettings xmlWriterSettings)
+        {
+            using var fileStream = Instances.FileStreamOperator.NewWrite(xmlFilePath.Value);
+            using var xmlWriter = XmlWriter.Create(fileStream, xmlWriterSettings);
+
+            xElement.Save(xmlWriter);
+        }
+
+        public void To_File_Synchronous(
+            IXmlFilePath xmlFilePath,
+            XElement xElement)
+        {
+            this.To_File_Synchronous(
+                xmlFilePath,
+                xElement,
+                Instances.XmlWriterSettingSets.Standard);
+        }
+
+        public string To_Text(
             XElement xElement,
             XmlWriterSettings writerSettings)
         {
@@ -194,18 +284,10 @@ namespace R5T.L0030
             return output;
         }
 
-        public string WriteTo_Text_Synchronous(XElement xElement)
-        {
-            var writerSettings = Instances.XmlWriterSettingSets.Standard;
-
-            var output = this.WriteTo_Text_Synchronous(
-                xElement,
-                writerSettings);
-
-            return output;
-        }
-
-        public async Task<string> WriteTo_Text(
+        /// <summary>
+        /// Allows use of <see cref="XmlWriterSettings.Async"/> when writing to an in-memory string.
+        /// </summary>
+        public async Task<string> To_Text_Asynchronous(
             XElement xElement,
             XmlWriterSettings writerSettings)
         {
@@ -222,13 +304,23 @@ namespace R5T.L0030
             return output;
         }
 
-        public Task<string> WriteTo_Text(XElement xElement)
+        public string To_Text(XElement xElement)
         {
             var writerSettings = Instances.XmlWriterSettingSets.Standard;
 
-            return this.WriteTo_Text(
+            var output = this.To_Text(
                 xElement,
                 writerSettings);
+
+            return output;
+        }
+
+        public IXmlText To_XmlText(XElement xElement)
+        {
+            var output = this.To_Text(xElement)
+                .ToXmlText();
+
+            return output;
         }
     }
 }

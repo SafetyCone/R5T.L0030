@@ -77,6 +77,31 @@ namespace R5T.L0030
             return wasFound;
         }
 
+        /// <summary>
+        /// Quality-of-life overload for <see cref="Is_Value(XElement, string)"/>.
+        /// </summary>
+        public bool Has_Value(
+            XElement element,
+            string value)
+        {
+            var output = this.Is_Value(
+                element,
+                value);
+
+            return output;
+        }
+
+        public bool Is_Value(
+            XElement element,
+            string value)
+        {
+            var output = Instances.XElementOperator.Is_Value(
+                element,
+                value);
+
+            return output;
+        }
+
         public XDocument Load_Synchronous(IXmlFilePath filePath)
         {
             return Instances.XDocumentOperator.Load_Synchronous(filePath);    
@@ -148,24 +173,43 @@ namespace R5T.L0030
             await writer.FlushAsync();
         }
 
-        public string WriteTo_Text_Synchronous(
+        public void Set_Value(XAttribute attribute, string value)
+        {
+            Instances.XAttributeOperator.Set_Value(attribute, value);
+        }
+
+        public void Set_Value(XElement element, string value)
+        {
+            Instances.XElementOperator.Set_Value(element, value);
+        }
+
+        public string WriteTo_Text(
             XElement xElement,
             XmlWriterSettings writerSettings)
         {
-            var output = Instances.XElementOperator.WriteTo_Text_Synchronous(
+            var output = Instances.XElementOperator.To_Text(
                 xElement,
                 writerSettings);
 
             return output;
         }
 
-        public Task<string> WriteTo_Text(
+        public Task<string> WriteTo_Text_Asynchronous(
             XElement xElement,
             XmlWriterSettings writerSettings)
         {
-            return Instances.XElementOperator.WriteTo_Text(
+            return Instances.XElementOperator.To_Text_Asynchronous(
                 xElement,
                 writerSettings);
+        }
+
+        public Task Write_ToFile(
+            IXmlFilePath xmlFilePath,
+            IXmlText xmlText)
+        {
+            return Instances.FileOperator.WriteText(
+                xmlFilePath.Value,
+                xmlText.Value);
         }
     }
 }

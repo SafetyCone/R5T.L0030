@@ -13,11 +13,18 @@ namespace R5T.L0030
     public partial interface ILoadOptionSets : IValuesMarker
     {
         /// <summary>
-        /// The default is to preserve whitespace.
+        /// The default is none.
+        /// <para>
+        /// Note: the XElement.SaveAsync() method seems to have a bug in that it will output preserved whitespace (seen when adding a new element without any whitespace to an existing element with whitespace).
+        /// The only way to get property indented output from the SaveAsync() method is to remove whitespace when loading.
+        /// This default was changed to none from preserve whitespace for this reason.
+        /// </para>
         /// </summary>
-        public const LoadOptions Default_Constant = LoadOptions.PreserveWhitespace;
+        public const LoadOptions Default_Constant = LoadOptions.None;
 
         /// <inheritdoc cref="Default_Constant"/>
         public LoadOptions Default => Default_Constant;
+
+        public LoadOptions PreserveWhitespace => LoadOptions.PreserveWhitespace;
     }
 }

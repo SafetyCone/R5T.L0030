@@ -14,6 +14,7 @@ namespace R5T.L0030
         public static ILoadOptionSets LoadOptionSets => L0030.LoadOptionSets.Instance;
         public static F0000.INullOperator NullOperator => F0000.NullOperator.Instance;
         public static F0000.IOrderOperator OrderOperator => F0000.OrderOperator.Instance;
+        public static ISaveOptionSets SaveOptionSets => L0030.SaveOptionSets.Instance;
         public static F0000.ITextOperator TextOperator => F0000.TextOperator.Instance;
         public static IValues Values => L0030.Values.Instance;
         public static IXAttributeOperator XAttributeOperator => L0030.XAttributeOperator.Instance;

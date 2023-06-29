@@ -16,6 +16,22 @@ namespace R5T.L0030
     [FunctionalityMarker]
     public partial interface IXContainerOperator : IFunctionalityMarker
     {
+        public XElement Acquire_ChildOfChild(
+            XContainer container,
+            IElementName elementName,
+            IElementName childElementName)
+        {
+            var child = this.Acquire_Child(
+                container,
+                elementName);
+
+            var grandchild = this.Acquire_Child(
+                child,
+                childElementName);
+
+            return grandchild;
+        }
+
         public XElement Acquire_Child(XContainer container, IElementName elementName)
         {
             var hasChild = this.Has_Child(container, elementName);
@@ -67,6 +83,15 @@ namespace R5T.L0030
         public void Clear_Children(XContainer container)
         {
             this.RemoveAll_Children(container);
+        }
+
+        public XElement Ensure_HasChild(
+            XContainer container,
+            IElementName elementName)
+        {
+            return this.Acquire_Child(
+                container,
+                elementName);
         }
 
         /// <summary>

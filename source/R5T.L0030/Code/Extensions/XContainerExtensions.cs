@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Xml.Linq;
 
 using R5T.F0000;
@@ -11,7 +12,18 @@ namespace R5T.L0030.Extensions
 {
     public static class XContainerExtensions
     {
-        public static XElement Acquire_Child(this XContainer container, IElementName elementName)
+        public static XElement Acquire_ChildOfChild(this XContainer container,
+            IElementName elementName,
+            IElementName childElementName)
+        {
+            return Instances.XContainerOperator.Acquire_ChildOfChild(
+                container,
+                elementName,
+                childElementName);
+        }
+
+        public static XElement Acquire_Child(this XContainer container,
+            IElementName elementName)
         {
             return Instances.XContainerOperator.Acquire_Child(container, elementName);
         }
@@ -42,10 +54,27 @@ namespace R5T.L0030.Extensions
                 childValue);
         }
 
+        public static XElement Ensure_HasChild(this XContainer container,
+            IElementName elementName)
+        {
+            return Instances.XContainerOperator.Ensure_HasChild(
+                container,
+                elementName);
+        }
+
         /// <inheritdoc cref="IXContainerOperator.Get_Children(XContainer)"/>
         public static IEnumerable<XElement> Get_Children(this XContainer container)
         {
             return Instances.XContainerOperator.Get_Children(container);
+        }
+
+        /// <inheritdoc cref="IXContainerOperator.Has_Child(XContainer, IElementName)"/>
+        public static WasFound<XElement> Has_Child(this XContainer container,
+            IElementName childName)
+        {
+            return Instances.XContainerOperator.Has_Child(
+                container,
+                childName);
         }
 
         /// <inheritdoc cref="IXContainerOperator.Has_Child_Any(XContainer, IElementName)"/>
