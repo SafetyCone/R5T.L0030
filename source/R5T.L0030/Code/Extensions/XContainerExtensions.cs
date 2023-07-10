@@ -68,6 +68,22 @@ namespace R5T.L0030.Extensions
             return Instances.XContainerOperator.Get_Children(container);
         }
 
+        public static IEnumerable<XElement> Get_Children(this XContainer container,
+            IElementName childName)
+        {
+            return Instances.XContainerOperator.Get_Children(
+                container,
+                childName);
+        }
+
+        public static XElement Get_Child(this XContainer container,
+            IElementName childName)
+        {
+            return Instances.XContainerOperator.Get_Child(
+                container,
+                childName);
+        }
+
         /// <inheritdoc cref="IXContainerOperator.Has_Child(XContainer, IElementName)"/>
         public static WasFound<XElement> Has_Child(this XContainer container,
             IElementName childName)

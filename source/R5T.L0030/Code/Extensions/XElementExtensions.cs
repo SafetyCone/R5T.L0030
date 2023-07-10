@@ -33,6 +33,14 @@ namespace R5T.L0030.Extensions
             return element;
         }
 
+        public static XAttribute Get_Attribute(this XElement element,
+            IAttributeName attributeName)
+        {
+            return Instances.XElementOperator.Get_Attribute(
+                element,
+                attributeName);
+        }
+
         public static IEnumerable<XAttribute> Get_Attributes(this XElement element)
         {
             return Instances.XElementOperator.Get_Attributes(element);
@@ -42,6 +50,19 @@ namespace R5T.L0030.Extensions
             IAttributeName attributeName)
         {
             return Instances.XElementOperator.Get_AttributeValue(element, attributeName);
+        }
+
+        public static IEnumerable<XElement> Get_Children(this XElement element)
+        {
+            return Instances.XElementOperator.Get_Children(element);
+        }
+
+        public static IEnumerable<XElement> Get_Children(this XElement element,
+            IElementName childName)
+        {
+            return Instances.XElementOperator.Get_Children(
+                element,
+                childName);
         }
 
         public static string Get_Name(this XElement xElement)

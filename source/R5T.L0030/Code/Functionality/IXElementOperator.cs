@@ -14,12 +14,13 @@ using R5T.T0203.Extensions;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
-using System.Xml.Serialization;
+
 
 namespace R5T.L0030
 {
     [FunctionalityMarker]
-    public partial interface IXElementOperator : IFunctionalityMarker
+    public partial interface IXElementOperator : IFunctionalityMarker,
+        F0000.IXElementOperator
     {
         public XAttribute Acquire_Attribute(XElement element, IAttributeName attributeName)
         {
@@ -86,14 +87,46 @@ namespace R5T.L0030
             return output;
         }
 
+        public XElement Get_Child(
+            XElement element,
+            IElementName chldName)
+        {
+            var output = element.Get_Child(chldName);
+            return output;
+        }
+
+        public WasFound<XElement> Has_Child(
+            XElement element,
+            IElementName childName)
+        {
+            return element.Has_Child(childName);
+        }
+
+        public IEnumerable<XElement> Get_Children(XElement element)
+        {
+            return Instances.XContainerOperator.Get_Children(element);
+        }
+
+        /// <summary>
+        /// Same as <see cref="Get_ChildrenWithName(XElement, IElementName)"/>
+        /// </summary>
+        public IEnumerable<XElement> Get_Children(
+            XElement element,
+            IElementName childName)
+        {
+            return Instances.XContainerOperator.Get_Children(
+                element,
+                childName);
+        }
+
+        /// <summary>
+        /// Same as <see cref="Get_Children(XElement, IElementName)"/>
+        /// </summary>
         public IEnumerable<XElement> Get_ChildrenWithName(
             XElement element,
             IElementName elementName)
         {
-            var output = element.Get_Children()
-                .Where(child => child.Name_Is(elementName))
-                ;
-
+            var output = element.Get_Children(elementName);
             return output;
         }
 
@@ -107,13 +140,39 @@ namespace R5T.L0030
             return element.Attributes();
         }
 
+        public XAttribute Get_Attribute(
+            XElement element,
+            IAttributeName attributeName)
+        {
+            var output = this.Has_Attribute(element, attributeName)
+                .ResultOrExceptionIfNotFound();
+
+            return output;
+        }
+
         public string Get_AttributeValue(XElement element,
             IAttributeName attributeName)
         {
-            var attribute = this.Has_Attribute(element, attributeName)
-                .ResultOrExceptionIfNotFound();
+            var attribute = this.Get_Attribute(
+                element,
+                attributeName);
 
             var output = attribute.Value;
+            return output;
+        }
+
+        /// <summary>
+        /// Gets the inner XML of the element (text including XML tags).
+        /// To get the inner text of the element, without any XML tags, use <see cref="Get_Value(XElement)"/>.
+        /// </summary>
+        // Source: https://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
+        public string Get_InnerXml(XElement element)
+        {
+            using var reader = element.CreateReader();
+
+            reader.MoveToContent();
+
+            var output = reader.ReadInnerXml();
             return output;
         }
 
@@ -123,6 +182,56 @@ namespace R5T.L0030
             return name;
         }
 
+        public void Remove_LeadingAndTrailingWhitespaceNodes(XElement element)
+        {
+            var nodesToKeep = this.Get_Nodes_ExceptLeadingAndTrailingWhitespaceNodes(element);
+
+            element.RemoveAll();
+            element.Add(nodesToKeep);
+        }
+
+        public IEnumerable<XNode> Get_Nodes_ExceptLeadingAndTrailingWhitespaceNodes(XElement element)
+        {
+            static IEnumerable<XNode> ExceptLeadingWhitespaceNodes(IEnumerable<XNode> nodes)
+            {
+                var inLeadingWhitespace = true;
+
+                foreach (var node in nodes)
+                {
+                    if (inLeadingWhitespace)
+                    {
+                        if (node is XText textNode)
+                        {
+                            var isWhitespace = textNode.Value.Trim() == System.String.Empty;
+                            if (isWhitespace)
+                            {
+                                continue;
+                            };
+                        }
+
+                        inLeadingWhitespace = false;
+                    }
+
+                    yield return node;
+                }
+            }
+
+            var nodes = element.Nodes().Now();
+
+            var output = ExceptLeadingWhitespaceNodes(
+                ExceptLeadingWhitespaceNodes(
+                    nodes
+                )
+                .Reverse()
+            ).Reverse();
+
+            return output;
+        }
+
+        /// <summary>
+        /// Gets the inner text of the element, without any XML tags.
+        /// To get the inner XML of the element (text including XML tags), use <see cref="Get_InnerXml(XElement)"/>.
+        /// </summary>
         public string Get_Value(XElement element)
         {
             var output = element.Value;
@@ -147,12 +256,28 @@ namespace R5T.L0030
             return this.Has_Attribute_First(element, attributeName);
         }
 
+        public WasFound<string> Has_AttributeValue(XElement element, IAttributeName attributeName)
+        {
+            var output = this.Has_Attribute(
+                element,
+                attributeName)
+                .Convert(attribute => attribute.Value);
+
+            return output;
+        }
+
         /// <summary>
         /// Uses the <see cref="XName.LocalName"/> property to avoid the crazed namespace BS.
         /// </summary>
         public bool Is_Name(XElement element, IElementName elementName)
         {
             var output = element.Name.LocalName == elementName.Value;
+            return output;
+        }
+
+        public bool Is_SelfClosed(XElement inheritdocElement)
+        {
+            var output = !inheritdocElement.HasElements;
             return output;
         }
 
@@ -186,6 +311,27 @@ namespace R5T.L0030
                 elementName.Value,
                 contents);
 
+            return output;
+        }
+
+        public XElement[] Parse_MultipleRoots(
+            IXmlText xmlText,
+            LoadOptions loadOptions = ILoadOptionSets.Default_Constant)
+        {
+            return this.Parse_MultipleRoots(
+                xmlText.Value,
+                loadOptions);
+        }
+
+        public XElement[] Parse_MultipleRoots(
+            string xmlText,
+            LoadOptions loadOptions = ILoadOptionSets.Default_Constant)
+        {
+            var modifiedXmlText = "<temp>" + xmlText + "</temp>";
+
+            var tempElement = this.Parse(modifiedXmlText);
+
+            var output = tempElement.Elements().ToArray();
             return output;
         }
 
@@ -310,6 +456,38 @@ namespace R5T.L0030
 
             var output = this.To_Text(
                 xElement,
+                writerSettings);
+
+            return output;
+        }
+
+        public string To_Text(
+            IEnumerable<XElement> xElements,
+            XmlWriterSettings writerSettings)
+        {
+            var stringBuilder = new StringBuilder();
+
+            writerSettings.ConformanceLevel = ConformanceLevel.Fragment;
+            writerSettings.NewLineHandling = NewLineHandling.Replace;
+
+            using (var xmlWriter = XmlWriter.Create(stringBuilder, writerSettings))
+            {
+                foreach (var xElement in xElements)
+                {
+                    xElement.WriteTo(xmlWriter);
+                }
+            }
+
+            var output = stringBuilder.ToString();
+            return output;
+        }
+
+        public string To_Text(IEnumerable<XElement> xElements)
+        {
+            var writerSettings = Instances.XmlWriterSettingSets.Standard;
+
+            var output = this.To_Text(
+                xElements,
                 writerSettings);
 
             return output;

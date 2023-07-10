@@ -94,6 +94,17 @@ namespace R5T.L0030
                 elementName);
         }
 
+        public XElement Get_Child(XContainer container,
+            IElementName childName)
+        {
+            var child = this.Has_Child(
+                container,
+                childName)
+                .ResultOrExceptionIfNotFound(() => $"Container had no '{childName}' child.");
+
+            return child;
+        }
+
         /// <summary>
         /// A better named quality-of-life method for <see cref="XContainer.Elements()"/>.
         /// </summary>
@@ -102,10 +113,24 @@ namespace R5T.L0030
             return container.Elements();
         }
 
-        public bool Has_Child_Any(XContainer container, IElementName childName)
+        public IEnumerable<XElement> Get_Children(
+            XContainer container,
+            IElementName childName)
         {
             var output = this.Get_Children(container)
                 .Where_NameIs(childName)
+                ;
+
+            return output;
+        }
+
+        public bool Has_Child_Any(
+            XContainer container,
+            IElementName childName)
+        {
+            var output = this.Get_Children(
+                container,
+                childName)
                 .Any();
 
             return output;
