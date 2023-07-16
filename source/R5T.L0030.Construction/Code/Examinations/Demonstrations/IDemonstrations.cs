@@ -47,7 +47,7 @@ namespace R5T.L0030.Construction
                 empty);
 
             Instances.NotepadPlusPlusOperator.Open(
-                outputFilePath);
+                outputFilePath.Value);
         }
     }
 }

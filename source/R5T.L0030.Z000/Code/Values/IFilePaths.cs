@@ -10,7 +10,7 @@ namespace R5T.L0030.Z000
     public partial interface IFilePaths : IValuesMarker
     {
         /// <inheritdoc cref="IRelativeFilePaths.Example01Xml"/>
-        public XmlFilePath Example01 => Instances.ExecutableFileRelativePathOperator.Get_FilePath(
+        public IXmlFilePath Example01 => Instances.ExecutableFileRelativePathOperator.Get_FilePath(
             Instances.RelativeFilePaths.Example01Xml)
             .AsXmlFilePath();
     }
