@@ -23,5 +23,18 @@ namespace R5T.L0030
 
         /// <inheritdoc cref="IXmlWriterSettingsOperator.Set_Standard_Synchronous(XmlWriterSettings)"/>
         public XmlWriterSettings Standard_Synchronous => new XmlWriterSettings().Set_Standard_Synchronous();
+
+        /// <summary>
+        /// Useful for writing XElements just the way they are. Sets:
+        /// <list type="bullet">
+        /// <item><see cref="ConformanceLevel.Fragment"/></item>
+        /// <item><see cref="XmlWriterSettings.Async"/> = true</item>
+        /// </list>
+        /// </summary>
+        public XmlWriterSettings Fragment => new XmlWriterSettings()
+        {
+            Async = true,
+            ConformanceLevel = ConformanceLevel.Fragment,
+        };
     }
 }

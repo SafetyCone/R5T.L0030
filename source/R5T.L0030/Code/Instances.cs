@@ -25,5 +25,7 @@ namespace R5T.L0030
         public static IXmlOperator XmlOperator => L0030.XmlOperator.Instance;
         public static IXmlWriterSettingSets XmlWriterSettingSets => L0030.XmlWriterSettingSets.Instance;
         public static IXmlWriterSettingsOperator XmlWriterSettingsOperator => L0030.XmlWriterSettingsOperator.Instance;
+        public static IXNodeOperator XNodeOperator => L0030.XNodeOperator.Instance;
+        public static IXObjectOperator XObjectOperator => L0030.XObjectOperator.Instance;
     }
 }

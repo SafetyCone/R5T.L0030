@@ -13,6 +13,32 @@ namespace R5T.L0030
     [FunctionalityMarker]
     public partial interface IXAttributeOperator : IFunctionalityMarker
     {
+        /// <summary>
+        /// Creates a separate, but identical instance.
+        /// <para>Same as <see cref="Deep_Copy(XAttribute)"/></para>
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Documentation.WhichXObjectsAreCloneable" path="/summary"/>
+        /// </remarks>
+        public XAttribute Clone(XAttribute element)
+        {
+            // Use the constructor.
+            var output = new XAttribute(element);
+            return output;
+        }
+
+        /// <summary>
+        /// Creates a copy of the element, and all child-nodes.
+        /// <para>Same as <see cref="Clone(XAttribute)"/></para>
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Documentation.WhichXObjectsAreCloneable" path="/summary"/>
+        /// </remarks>
+        public XAttribute Deep_Copy(XAttribute element)
+        {
+            return this.Clone(element);
+        }
+
         public string Get_Value(XAttribute attribute)
         {
             return attribute.Value;

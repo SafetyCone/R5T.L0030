@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,8 @@ using R5T.T0203.Extensions;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
-
+using System.Diagnostics.Tracing;
+using System.Diagnostics;
 
 namespace R5T.L0030
 {
@@ -63,6 +65,74 @@ namespace R5T.L0030
         public void Clear_Children(XElement element)
         {
             Instances.XContainerOperator.Clear_Children(element);
+        }
+
+        /// <summary>
+        /// Creates a separate, but identical instance.
+        /// <para>Same as <see cref="Deep_Copy(XElement)"/></para>
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Documentation.WhichXObjectsAreCloneable" path="/summary"/>
+        /// </remarks>
+        public XElement Clone(XElement element)
+        {
+            // Use the constructor.
+            var output = new XElement(element);
+            return output;
+        }
+
+        public XElement Clone_OnlyName(XElement element)
+        {
+            var output = new XElement(element.Name);
+            return output;
+        }
+
+        /// <summary>
+        /// Creates a copy of the element, and all child-nodes.
+        /// <para>Same as <see cref="Clone(XElement)"/></para>
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Documentation.WhichXObjectsAreCloneable" path="/summary"/>
+        /// </remarks>
+        public XElement Deep_Copy(XElement element)
+        {
+            return this.Clone(element);
+        }
+
+        /// <summary>
+        /// There is no such thing as a shallow-copy for <see cref="XElement"/>s.
+        /// This due to the <see cref="XObject.Parent"/> behavior.
+        /// Whenever an element is added as a child element, if it already has a parent the parent is not changed, but instead the node is deep-copied and a copy is added as a child.
+        /// This allows functional behavior.
+        /// </summary>
+        /// <remarks>
+        /// See the Clone_Only() methods for specific behavior.
+        /// </remarks>
+        public XElement Shallow_Copy(XElement element)
+        {
+            throw new NotImplementedException("There is no such thing has shallow copy for XElements. See Clone_Only() methods for specific behavior.");
+        }
+
+        /// <inheritdoc cref="IXNodeOperator.DeepEquals(XNode, XNode)"/>
+        public bool DeepEquals(XElement a, XElement b)
+        {
+            var output = Instances.XNodeOperator.DeepEquals(a, b);
+            return output;
+        }
+        
+        /// <summary>
+        /// Are two <see cref="XElement"/>s the same object?
+        /// </summary>
+        public bool Equals_ByReference(XElement a, XElement b)
+        {
+            var output = Object.ReferenceEquals(a, b);
+            return output;
+        }
+
+        public bool Equals_ByValue_Deep(XElement a, XElement b)
+        {
+            var output = this.DeepEquals(a, b);
+            return output;
         }
 
         public XElement From_Text(string xmlText)
@@ -114,7 +184,7 @@ namespace R5T.L0030
             XElement element,
             IElementName childName)
         {
-            return Instances.XContainerOperator.Get_Children(
+            return this.Get_ChildrenWithName(
                 element,
                 childName);
         }
@@ -124,9 +194,47 @@ namespace R5T.L0030
         /// </summary>
         public IEnumerable<XElement> Get_ChildrenWithName(
             XElement element,
-            IElementName elementName)
+            IElementName name)
         {
-            var output = element.Get_Children(elementName);
+            return Instances.XContainerOperator.Get_Children(
+                element,
+                name);
+        }
+
+        /// <summary>
+        /// Same as <see cref="Get_DescendantsWithName(XElement, IElementName)"/>
+        /// </summary>
+        public IEnumerable<XElement> Get_Descendants(
+            XElement element,
+            IElementName name)
+        {
+            return this.Get_DescendantsWithName(
+                element,
+                name);
+        }
+
+        /// <summary>
+        /// Same as <see cref="Get_Children(XElement, IElementName)"/>
+        /// </summary>
+        public IEnumerable<XElement> Get_DescendantsWithName(
+            XElement element,
+            IElementName name)
+        {
+            var output = Instances.XContainerOperator.Get_Descendants(
+                element,
+                name);
+
+            return output;
+        }
+
+        public WasFound<XElement> Has_Descendant_First(
+            XElement element,
+            IElementName name)
+        {
+            var output = Instances.XContainerOperator.Has_Descendant_First(
+                element,
+                name);
+
             return output;
         }
 
@@ -371,12 +479,32 @@ namespace R5T.L0030
             return output;
         }
 
-        public async Task To_File(
+        public Task To_File(
             IXmlFilePath xmlFilePath,
             XElement xElement,
             XmlWriterSettings xmlWriterSettings)
         {
-            using var fileStream = Instances.FileStreamOperator.NewWrite(xmlFilePath.Value);
+            return this.To_File(
+                xmlFilePath.Value,
+                xElement,
+                xmlWriterSettings);
+        }
+
+        public Task To_File(
+            IXmlFilePath xmlFilePath,
+            XElement xElement)
+        {
+            return this.To_File(
+                xmlFilePath.Value,
+                xElement);
+        }
+
+        public async Task To_File(
+            string xmlFilePath,
+            XElement xElement,
+            XmlWriterSettings xmlWriterSettings)
+        {
+            using var fileStream = Instances.FileStreamOperator.NewWrite(xmlFilePath);
             using var xmlWriter = XmlWriter.Create(fileStream, xmlWriterSettings);
 
             await xElement.SaveAsync(
@@ -385,7 +513,7 @@ namespace R5T.L0030
         }
 
         public Task To_File(
-            IXmlFilePath xmlFilePath,
+            string xmlFilePath,
             XElement xElement)
         {
             return this.To_File(

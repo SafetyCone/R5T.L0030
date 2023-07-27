@@ -33,6 +33,24 @@ namespace R5T.L0030.Extensions
             return element;
         }
 
+        public static bool Contains_Descendant(this XElement element, XObject xObject)
+        {
+            var output = Instances.XObjectOperator.Contains_Descendant(
+                element,
+                xObject);
+
+            return output;
+        }
+
+        public static bool IsOrContains_Descendant(this XElement element, XObject xObject)
+        {
+            var output = Instances.XObjectOperator.IsOrContains_Descendant(
+                element,
+                xObject);
+
+            return output;
+        }
+
         public static XAttribute Get_Attribute(this XElement element,
             IAttributeName attributeName)
         {

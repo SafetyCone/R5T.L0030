@@ -124,6 +124,22 @@ namespace R5T.L0030
             return output;
         }
 
+        public IEnumerable<XElement> Get_Descendants(XContainer container)
+        {
+            return container.Descendants();
+        }
+
+        public IEnumerable<XElement> Get_Descendants(
+            XContainer container,
+            IElementName name)
+        {
+            var output = this.Get_Descendants(container)
+                .Where_NameIs(name)
+                ;
+
+            return output;
+        }
+
         public bool Has_Child_Any(
             XContainer container,
             IElementName childName)
@@ -223,6 +239,18 @@ namespace R5T.L0030
                 .FirstOrDefault();
 
             var output = WasFound.From(childOrDefault);
+            return output;
+        }
+
+        public WasFound<XElement> Has_Descendant_First(
+            XContainer container,
+            IElementName name)
+        {
+            var descendantOrDefault = this.Get_Descendants(container)
+                .Where_NameIs(name)
+                .FirstOrDefault();
+
+            var output = WasFound.From(descendantOrDefault);
             return output;
         }
 

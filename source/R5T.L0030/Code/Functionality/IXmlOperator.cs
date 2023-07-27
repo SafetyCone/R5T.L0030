@@ -6,17 +6,60 @@ using System.Xml.Linq;
 using R5T.F0000;
 using R5T.T0132;
 using R5T.T0181;
+using R5T.T0203;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
-using R5T.T0203;
-using System.Text;
+
 
 namespace R5T.L0030
 {
     [FunctionalityMarker]
     public partial interface IXmlOperator : IFunctionalityMarker
     {
+        /// <inheritdoc cref="IXAttributeOperator.Clone(XAttribute)"/>
+        public XAttribute Clone(XAttribute attribute)
+        {
+            return Instances.XAttributeOperator.Clone(attribute);
+        }
+
+        /// <inheritdoc cref="IXAttributeOperator.Deep_Copy(XAttribute)"/>
+        public XAttribute Deep_Copy(XAttribute attribute)
+        {
+            return Instances.XAttributeOperator.Deep_Copy(attribute);
+        }
+
+        /// <inheritdoc cref="IXNodeOperator.DeepEquals(XNode, XNode)"/>
+        public bool DeepEquals(XNode a, XNode b)
+        {
+            var output = Instances.XNodeOperator.DeepEquals(a, b);
+            return output;
+        }
+
+        /// <inheritdoc cref="IXDocumentOperator.Clone(XDocument)"/>
+        public XDocument Clone(XDocument document)
+        {
+            return Instances.XDocumentOperator.Clone(document);
+        }
+
+        /// <inheritdoc cref="IXDocumentOperator.Deep_Copy(XDocument)"/>
+        public XDocument Deep_Copy(XDocument document)
+        {
+            return Instances.XDocumentOperator.Deep_Copy(document);
+        }
+
+        /// <inheritdoc cref="IXElementOperator.Clone(XElement)"/>
+        public XElement Clone(XElement element)
+        {
+            return Instances.XElementOperator.Clone(element);
+        }
+
+        /// <inheritdoc cref="IXElementOperator.Deep_Copy(XElement)"/>
+        public XElement Deep_Copy(XElement element)
+        {
+            return Instances.XElementOperator.Deep_Copy(element);
+        }
+
         public string Get_AttributeValue(XElement element,
             IAttributeName attributeName)
         {
