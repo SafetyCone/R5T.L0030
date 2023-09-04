@@ -126,7 +126,7 @@ namespace R5T.L0030
             IXmlFilePath filePath,
             LoadOptions loadOptions)
         {
-            using var fileStream = Instances.FileStreamOperator.NewRead(filePath.Value);
+            using var fileStream = Instances.FileStreamOperator.Open_Read(filePath.Value);
 
             var xDocument = await XDocument.LoadAsync(
                 fileStream,

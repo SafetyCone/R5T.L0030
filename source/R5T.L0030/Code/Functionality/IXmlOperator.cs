@@ -79,7 +79,7 @@ namespace R5T.L0030
         /// </summary>
         public XmlWriter Get_Writer(IXmlFilePath xmlFilePath, XmlWriterSettings settings)
         {
-            Instances.FileSystemOperator.EnsureDirectoryForFilePathExists(
+            Instances.FileSystemOperator.Ensure_DirectoryExists_ForFilePath(
                 xmlFilePath.Value);
 
             var output = XmlWriter.Create(xmlFilePath.Value, settings);

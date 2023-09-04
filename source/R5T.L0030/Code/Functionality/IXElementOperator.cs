@@ -147,7 +147,7 @@ namespace R5T.L0030
 
         public async Task<XElement> From(IXmlFilePath xmlFilePath)
         {
-            using var fileStream = Instances.FileStreamOperator.NewRead(xmlFilePath.Value);
+            using var fileStream = Instances.FileStreamOperator.Open_Read(xmlFilePath.Value);
 
             var output = await XElement.LoadAsync(
                 fileStream,
@@ -504,7 +504,7 @@ namespace R5T.L0030
             XElement xElement,
             XmlWriterSettings xmlWriterSettings)
         {
-            using var fileStream = Instances.FileStreamOperator.NewWrite(xmlFilePath);
+            using var fileStream = Instances.FileStreamOperator.Open_Write(xmlFilePath);
             using var xmlWriter = XmlWriter.Create(fileStream, xmlWriterSettings);
 
             await xElement.SaveAsync(
@@ -527,7 +527,7 @@ namespace R5T.L0030
             XElement xElement,
             XmlWriterSettings xmlWriterSettings)
         {
-            using var fileStream = Instances.FileStreamOperator.NewWrite(xmlFilePath.Value);
+            using var fileStream = Instances.FileStreamOperator.Open_Write(xmlFilePath.Value);
             using var xmlWriter = XmlWriter.Create(fileStream, xmlWriterSettings);
 
             xElement.Save(xmlWriter);

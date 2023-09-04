@@ -22,7 +22,7 @@ namespace R5T.L0030.Internal
             XElement xElement,
             SaveOptions saveOptions = ISaveOptionSets.Default_Constant)
         {
-            using var fileStream = Instances.FileStreamOperator.NewWrite(xmlFilePath);
+            using var fileStream = Instances.FileStreamOperator.Open_Write(xmlFilePath);
 
             await xElement.SaveAsync(
                 fileStream,
