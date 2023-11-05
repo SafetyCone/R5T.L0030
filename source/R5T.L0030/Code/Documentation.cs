@@ -1,5 +1,6 @@
 using System;
-using System.Xml.Linq;
+
+using R5T.T0156;
 
 
 namespace R5T.L0030
@@ -7,16 +8,9 @@ namespace R5T.L0030
 	/// <summary>
 	/// XML document processing library.
 	/// </summary>
-	public static class Documentation
+	[DocumentationMarker]
+	public class Documentation : L0053.Documentation
 	{
-        /// <summary>
-        /// Note: asynchronous settings can be used synchronously, but not vice-versa.
-        /// </summary>
-        public static readonly object NoteOnAsynchronousSettings;
-
-        /// <summary>
-        /// Note that only <see cref="XElement"/>, <see cref="XDocument"/> and <see cref="XAttribute"/> have constructors like this (<see cref="XObject"/>, <see cref="XNode"/>, and <see cref="XContainer"/> do not).
-        /// </summary>
-        public static readonly object WhichXObjectsAreCloneable;
+        
 	}
 }

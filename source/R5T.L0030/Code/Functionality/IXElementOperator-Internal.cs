@@ -20,7 +20,7 @@ namespace R5T.L0030.Internal
         public async Task Save(
             string xmlFilePath,
             XElement xElement,
-            SaveOptions saveOptions = ISaveOptionSets.Default_Constant)
+            SaveOptions saveOptions = ISaveOptionsSets.Default_Constant)
         {
             using var fileStream = Instances.FileStreamOperator.Open_Write(xmlFilePath);
 
@@ -36,7 +36,7 @@ namespace R5T.L0030.Internal
         public Task Save(
             IXmlFilePath xmlFilePath,
             XElement xElement,
-            SaveOptions saveOptions = ISaveOptionSets.Default_Constant)
+            SaveOptions saveOptions = ISaveOptionsSets.Default_Constant)
         {
             return this.Save(
                 xmlFilePath,
@@ -50,7 +50,7 @@ namespace R5T.L0030.Internal
         public void WriteToWriter(
             XElement xElement,
             TextWriter textWriter,
-            SaveOptions saveOptions = ISaveOptionSets.Default_Constant)
+            SaveOptions saveOptions = ISaveOptionsSets.Default_Constant)
         {
             xElement.Save(
                 textWriter,
@@ -62,7 +62,7 @@ namespace R5T.L0030.Internal
         /// </summary>
         public string WriteToString(
             XElement xElement,
-            SaveOptions saveOptions = ISaveOptionSets.Default_Constant)
+            SaveOptions saveOptions = ISaveOptionsSets.Default_Constant)
         {
             var stringBuilder = new StringBuilder();
             var writer = new StringWriter(stringBuilder);

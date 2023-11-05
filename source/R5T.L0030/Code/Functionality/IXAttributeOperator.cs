@@ -18,7 +18,7 @@ namespace R5T.L0030
         /// <para>Same as <see cref="Deep_Copy(XAttribute)"/></para>
         /// </summary>
         /// <remarks>
-        /// <inheritdoc cref="Documentation.WhichXObjectsAreCloneable" path="/summary"/>
+        /// <inheritdoc cref="L0053.Documentation.WhichXObjectsAreCloneable" path="/summary"/>
         /// </remarks>
         public XAttribute Clone(XAttribute element)
         {
@@ -32,7 +32,7 @@ namespace R5T.L0030
         /// <para>Same as <see cref="Clone(XAttribute)"/></para>
         /// </summary>
         /// <remarks>
-        /// <inheritdoc cref="Documentation.WhichXObjectsAreCloneable" path="/summary"/>
+        /// <inheritdoc cref="L0053.Documentation.WhichXObjectsAreCloneable" path="/summary"/>
         /// </remarks>
         public XAttribute Deep_Copy(XAttribute element)
         {

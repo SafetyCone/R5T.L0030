@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Xml.Linq;
 
-using R5T.F0000;
+using R5T.N0000;
 
 using R5T.L0030.T000;
 
@@ -62,16 +61,16 @@ namespace R5T.L0030.Extensions
                 elementName);
         }
 
-        /// <inheritdoc cref="IXContainerOperator.Get_Children(XContainer)"/>
+        /// <inheritdoc cref="IXContainerOperator.Enumerate_Children(XContainer)"/>
         public static IEnumerable<XElement> Get_Children(this XContainer container)
         {
-            return Instances.XContainerOperator.Get_Children(container);
+            return Instances.XContainerOperator.Enumerate_Children(container);
         }
 
         public static IEnumerable<XElement> Get_Children(this XContainer container,
             IElementName childName)
         {
-            return Instances.XContainerOperator.Get_Children(
+            return Instances.XContainerOperator.Enumerate_Children(
                 container,
                 childName);
         }

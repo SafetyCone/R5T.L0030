@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
-using R5T.F0000;
+using R5T.N0000;
+
 using R5T.T0132;
 using R5T.T0181;
 using R5T.T0203;
@@ -48,13 +49,13 @@ namespace R5T.L0030
             return Instances.XDocumentOperator.Deep_Copy(document);
         }
 
-        /// <inheritdoc cref="IXElementOperator.Clone(XElement)"/>
+        /// <inheritdoc cref="L0053.IXElementOperator.Clone(XElement)"/>
         public XElement Clone(XElement element)
         {
             return Instances.XElementOperator.Clone(element);
         }
 
-        /// <inheritdoc cref="IXElementOperator.Deep_Copy(XElement)"/>
+        /// <inheritdoc cref="L0053.IXElementOperator.Deep_Copy(XElement)"/>
         public XElement Deep_Copy(XElement element)
         {
             return Instances.XElementOperator.Deep_Copy(element);

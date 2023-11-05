@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-using R5T.F0000;
+using R5T.N0000;
+
 using R5T.T0132;
+using R5T.T0179.Extensions;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
-using R5T.T0179.Extensions;
 
 
 namespace R5T.L0030
@@ -108,16 +109,16 @@ namespace R5T.L0030
         /// <summary>
         /// A better named quality-of-life method for <see cref="XContainer.Elements()"/>.
         /// </summary>
-        public IEnumerable<XElement> Get_Children(XContainer container)
+        public IEnumerable<XElement> Enumerate_Children(XContainer container)
         {
             return container.Elements();
         }
 
-        public IEnumerable<XElement> Get_Children(
+        public IEnumerable<XElement> Enumerate_Children(
             XContainer container,
             IElementName childName)
         {
-            var output = this.Get_Children(container)
+            var output = this.Enumerate_Children(container)
                 .Where_NameIs(childName)
                 ;
 
@@ -144,7 +145,7 @@ namespace R5T.L0030
             XContainer container,
             IElementName childName)
         {
-            var output = this.Get_Children(
+            var output = this.Enumerate_Children(
                 container,
                 childName)
                 .Any();
@@ -154,7 +155,7 @@ namespace R5T.L0030
 
         public WasFound<XElement> Has_Child_First(XContainer container, IElementName childName)
         {
-            var childOrDefault = this.Get_Children(container)
+            var childOrDefault = this.Enumerate_Children(container)
                 .Where_NameIs(childName)
                 .FirstOrDefault();
 
@@ -164,7 +165,7 @@ namespace R5T.L0030
 
         public WasFound<XElement> Has_Child_Single(XContainer container, IElementName childName)
         {
-            var childOrDefault = this.Get_Children(container)
+            var childOrDefault = this.Enumerate_Children(container)
                 .Where_NameIs(childName)
                 .SingleOrDefault();
 

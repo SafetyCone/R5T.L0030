@@ -14,6 +14,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\R5T.F0120\source\R5T.F0120\R5T.F0120.csproj" />
+    <ProjectReference Include="..\..\..\R5T.L0056\source\R5T.L0056\R5T.L0056.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0203\source\R5T.T0203\R5T.T0203.csproj" />
     <ProjectReference Include="..\R5T.L0030.T000\R5T.L0030.T000.csproj" />
   </ItemGroup>

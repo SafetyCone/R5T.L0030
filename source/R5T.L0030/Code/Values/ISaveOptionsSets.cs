@@ -10,7 +10,7 @@ namespace R5T.L0030
     /// Save options instances (<see cref="SaveOptions"/>).
     /// </summary>
     [ValuesMarker]
-    public partial interface ISaveOptionSets : IValuesMarker
+    public partial interface ISaveOptionsSets : IValuesMarker
     {
         /// <summary>
         /// Default is <see cref="SaveOptions.None"/>.

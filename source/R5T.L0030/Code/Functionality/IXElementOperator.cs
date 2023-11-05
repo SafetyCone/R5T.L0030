@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
-using R5T.F0000;
+using R5T.N0000;
+
 using R5T.T0132;
 using R5T.T0181;
 using R5T.T0203;
@@ -15,8 +15,7 @@ using R5T.T0203.Extensions;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
-using System.Diagnostics.Tracing;
-using System.Diagnostics;
+
 
 namespace R5T.L0030
 {
@@ -65,38 +64,6 @@ namespace R5T.L0030
         public void Clear_Children(XElement element)
         {
             Instances.XContainerOperator.Clear_Children(element);
-        }
-
-        /// <summary>
-        /// Creates a separate, but identical instance.
-        /// <para>Same as <see cref="Deep_Copy(XElement)"/></para>
-        /// </summary>
-        /// <remarks>
-        /// <inheritdoc cref="Documentation.WhichXObjectsAreCloneable" path="/summary"/>
-        /// </remarks>
-        public XElement Clone(XElement element)
-        {
-            // Use the constructor.
-            var output = new XElement(element);
-            return output;
-        }
-
-        public XElement Clone_OnlyName(XElement element)
-        {
-            var output = new XElement(element.Name);
-            return output;
-        }
-
-        /// <summary>
-        /// Creates a copy of the element, and all child-nodes.
-        /// <para>Same as <see cref="Clone(XElement)"/></para>
-        /// </summary>
-        /// <remarks>
-        /// <inheritdoc cref="Documentation.WhichXObjectsAreCloneable" path="/summary"/>
-        /// </remarks>
-        public XElement Deep_Copy(XElement element)
-        {
-            return this.Clone(element);
         }
 
         /// <summary>
@@ -151,7 +118,7 @@ namespace R5T.L0030
 
             var output = await XElement.LoadAsync(
                 fileStream,
-                Instances.LoadOptionSets.Default,
+                Instances.LoadOptionsSets.Default,
                 Instances.CancellationTokens.None);
 
             return output;
@@ -174,17 +141,17 @@ namespace R5T.L0030
 
         public IEnumerable<XElement> Get_Children(XElement element)
         {
-            return Instances.XContainerOperator.Get_Children(element);
+            return Instances.XContainerOperator.Enumerate_Children(element);
         }
 
         /// <summary>
-        /// Same as <see cref="Get_ChildrenWithName(XElement, IElementName)"/>
+        /// Same as <see cref="Enumerate_ChildrenWithName(XElement, IElementName)"/>
         /// </summary>
         public IEnumerable<XElement> Get_Children(
             XElement element,
             IElementName childName)
         {
-            return this.Get_ChildrenWithName(
+            return this.Enumerate_ChildrenWithName(
                 element,
                 childName);
         }
@@ -192,11 +159,11 @@ namespace R5T.L0030
         /// <summary>
         /// Same as <see cref="Get_Children(XElement, IElementName)"/>
         /// </summary>
-        public IEnumerable<XElement> Get_ChildrenWithName(
+        public IEnumerable<XElement> Enumerate_ChildrenWithName(
             XElement element,
             IElementName name)
         {
-            return Instances.XContainerOperator.Get_Children(
+            return Instances.XContainerOperator.Enumerate_Children(
                 element,
                 name);
         }
@@ -424,7 +391,7 @@ namespace R5T.L0030
 
         public XElement[] Parse_MultipleRoots(
             IXmlText xmlText,
-            LoadOptions loadOptions = ILoadOptionSets.Default_Constant)
+            LoadOptions loadOptions = ILoadOptionsSets.Default_Constant)
         {
             return this.Parse_MultipleRoots(
                 xmlText.Value,
@@ -433,7 +400,7 @@ namespace R5T.L0030
 
         public XElement[] Parse_MultipleRoots(
             string xmlText,
-            LoadOptions loadOptions = ILoadOptionSets.Default_Constant)
+            LoadOptions loadOptions = ILoadOptionsSets.Default_Constant)
         {
             var modifiedXmlText = "<temp>" + xmlText + "</temp>";
 
@@ -444,19 +411,8 @@ namespace R5T.L0030
         }
 
         public XElement Parse(
-            string xmlText,
-            LoadOptions loadOptions = ILoadOptionSets.Default_Constant)
-        {
-            var output = XElement.Parse(
-                xmlText,
-                loadOptions);
-
-            return output;
-        }
-
-        public XElement Parse(
             IXmlText xmlText,
-            LoadOptions loadOptions = ILoadOptionSets.Default_Constant)
+            LoadOptions loadOptions = ILoadOptionsSets.Default_Constant)
         {
             var output = this.Parse(
                 xmlText.Value,
@@ -519,7 +475,7 @@ namespace R5T.L0030
             return this.To_File(
                 xmlFilePath,
                 xElement,
-                Instances.XmlWriterSettingSets.Standard);
+                Instances.XmlWriterSettingsSets.Standard);
         }
 
         public void To_File_Synchronous(
@@ -540,22 +496,7 @@ namespace R5T.L0030
             this.To_File_Synchronous(
                 xmlFilePath,
                 xElement,
-                Instances.XmlWriterSettingSets.Standard);
-        }
-
-        public string To_Text(
-            XElement xElement,
-            XmlWriterSettings writerSettings)
-        {
-            var stringBuilder = new StringBuilder();
-
-            using (var xmlWriter = XmlWriter.Create(stringBuilder, writerSettings))
-            {
-                xElement.WriteTo(xmlWriter);
-            }
-
-            var output = stringBuilder.ToString();
-            return output;
+                Instances.XmlWriterSettingsSets.Standard);
         }
 
         /// <summary>
@@ -580,7 +521,7 @@ namespace R5T.L0030
 
         public string To_Text(XElement xElement)
         {
-            var writerSettings = Instances.XmlWriterSettingSets.Standard;
+            var writerSettings = Instances.XmlWriterSettingsSets.Standard;
 
             var output = this.To_Text(
                 xElement,
@@ -612,7 +553,7 @@ namespace R5T.L0030
 
         public string To_Text(IEnumerable<XElement> xElements)
         {
-            var writerSettings = Instances.XmlWriterSettingSets.Standard;
+            var writerSettings = Instances.XmlWriterSettingsSets.Standard;
 
             var output = this.To_Text(
                 xElements,
