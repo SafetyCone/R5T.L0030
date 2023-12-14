@@ -15,7 +15,8 @@ using R5T.L0030.T000;
 namespace R5T.L0030
 {
     [FunctionalityMarker]
-    public partial interface IXContainerOperator : IFunctionalityMarker
+    public partial interface IXContainerOperator : IFunctionalityMarker,
+        L0066.IXContainerOperator
     {
         public XElement Acquire_ChildOfChild(
             XContainer container,
@@ -104,14 +105,6 @@ namespace R5T.L0030
                 .ResultOrExceptionIfNotFound(() => $"Container had no '{childName}' child.");
 
             return child;
-        }
-
-        /// <summary>
-        /// A better named quality-of-life method for <see cref="XContainer.Elements()"/>.
-        /// </summary>
-        public IEnumerable<XElement> Enumerate_Children(XContainer container)
-        {
-            return container.Elements();
         }
 
         public IEnumerable<XElement> Enumerate_Children(

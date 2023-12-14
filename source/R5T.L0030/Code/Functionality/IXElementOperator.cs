@@ -21,7 +21,8 @@ namespace R5T.L0030
 {
     [FunctionalityMarker]
     public partial interface IXElementOperator : IFunctionalityMarker,
-        F0000.IXElementOperator
+        F0000.IXElementOperator,
+        L0056.IXElementOperator
     {
         public XAttribute Acquire_Attribute(XElement element, IAttributeName attributeName)
         {
@@ -54,11 +55,6 @@ namespace R5T.L0030
             attribute.SetValue(value);
 
             return attribute;
-        }
-
-        public void Add_Child(XElement element, XElement child)
-        {
-            element.Add(child);
         }
 
         public void Clear_Children(XElement element)
@@ -139,11 +135,6 @@ namespace R5T.L0030
             return element.Has_Child(childName);
         }
 
-        public IEnumerable<XElement> Get_Children(XElement element)
-        {
-            return Instances.XContainerOperator.Enumerate_Children(element);
-        }
-
         /// <summary>
         /// Same as <see cref="Enumerate_ChildrenWithName(XElement, IElementName)"/>
         /// </summary>
@@ -208,11 +199,6 @@ namespace R5T.L0030
         public void RemoveAll_Children(XElement element)
         {
             Instances.XContainerOperator.RemoveAll_Children(element);
-        }
-
-        public IEnumerable<XAttribute> Get_Attributes(XElement element)
-        {
-            return element.Attributes();
         }
 
         public XAttribute Get_Attribute(
@@ -421,11 +407,6 @@ namespace R5T.L0030
             return output;
         }
 
-        public void Set_Value(XElement element, string value)
-        {
-            element.Value = value;
-        }
-
         public IEnumerable<XElement> Where_NameIs(IEnumerable<XElement> elements, IElementName elementName)
         {
             var output = elements
@@ -455,19 +436,6 @@ namespace R5T.L0030
                 xElement);
         }
 
-        public async Task To_File(
-            string xmlFilePath,
-            XElement xElement,
-            XmlWriterSettings xmlWriterSettings)
-        {
-            using var fileStream = Instances.FileStreamOperator.Open_Write(xmlFilePath);
-            using var xmlWriter = XmlWriter.Create(fileStream, xmlWriterSettings);
-
-            await xElement.SaveAsync(
-                xmlWriter,
-                Instances.CancellationTokens.None);
-        }
-
         public Task To_File(
             string xmlFilePath,
             XElement xElement)
@@ -483,13 +451,23 @@ namespace R5T.L0030
             XElement xElement,
             XmlWriterSettings xmlWriterSettings)
         {
-            using var fileStream = Instances.FileStreamOperator.Open_Write(xmlFilePath.Value);
-            using var xmlWriter = XmlWriter.Create(fileStream, xmlWriterSettings);
-
-            xElement.Save(xmlWriter);
+            this.To_File_Synchronous(
+                xmlFilePath.Value,
+                xElement,
+                xmlWriterSettings);
         }
 
         public void To_File_Synchronous(
+            IXmlFilePath xmlFilePath,
+            XElement xElement)
+        {
+            this.To_File_Synchronous(
+                xmlFilePath,
+                xElement,
+                Instances.XmlWriterSettingsSets.Standard);
+        }
+
+        public void To_File_AsIs_Synchronous(
             IXmlFilePath xmlFilePath,
             XElement xElement)
         {

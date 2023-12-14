@@ -9,6 +9,8 @@ using R5T.T0132;
 using R5T.T0181;
 using R5T.T0203;
 
+using XmlDocumentation = R5T.Y0006.Documentation.ForXml;
+
 
 namespace R5T.L0030
 {
@@ -21,7 +23,7 @@ namespace R5T.L0030
         /// <para>Same as <see cref="Deep_Copy(XDocument)"/></para>
         /// </summary>
         /// <remarks>
-        /// <inheritdoc cref="L0053.Documentation.WhichXObjectsAreCloneable" path="/summary"/>
+        /// <inheritdoc cref="XmlDocumentation.WhichXObjectsAreCloneable" path="/summary"/>
         /// </remarks>
         public XDocument Clone(XDocument document)
         {
@@ -35,7 +37,7 @@ namespace R5T.L0030
         /// <para>Same as <see cref="Clone(XDocument)"/></para>
         /// </summary>
         /// <remarks>
-        /// <inheritdoc cref="L0053.Documentation.WhichXObjectsAreCloneable" path="/summary"/>
+        /// <inheritdoc cref="XmlDocumentation.WhichXObjectsAreCloneable" path="/summary"/>
         /// </remarks>
         public XDocument Deep_Copy(XDocument document)
         {

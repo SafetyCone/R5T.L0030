@@ -16,7 +16,8 @@ using R5T.L0030.T000;
 namespace R5T.L0030
 {
     [FunctionalityMarker]
-    public partial interface IXmlOperator : IFunctionalityMarker
+    public partial interface IXmlOperator : IFunctionalityMarker,
+        L0066.IXmlOperator
     {
         /// <inheritdoc cref="IXAttributeOperator.Clone(XAttribute)"/>
         public XAttribute Clone(XAttribute attribute)
@@ -49,13 +50,13 @@ namespace R5T.L0030
             return Instances.XDocumentOperator.Deep_Copy(document);
         }
 
-        /// <inheritdoc cref="L0053.IXElementOperator.Clone(XElement)"/>
+        /// <inheritdoc cref="L0066.IXElementOperator.Clone(XElement)"/>
         public XElement Clone(XElement element)
         {
             return Instances.XElementOperator.Clone(element);
         }
 
-        /// <inheritdoc cref="L0053.IXElementOperator.Deep_Copy(XElement)"/>
+        /// <inheritdoc cref="L0066.IXElementOperator.Deep_Copy(XElement)"/>
         public XElement Deep_Copy(XElement element)
         {
             return Instances.XElementOperator.Deep_Copy(element);

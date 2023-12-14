@@ -7,18 +7,21 @@ using R5T.T0132;
 
 using R5T.L0030.T000;
 
+using XmlDocumentation = R5T.Y0006.Documentation.ForXml;
+
 
 namespace R5T.L0030
 {
     [FunctionalityMarker]
-    public partial interface IXAttributeOperator : IFunctionalityMarker
+    public partial interface IXAttributeOperator : IFunctionalityMarker,
+        L0066.IXAttributeOperator
     {
         /// <summary>
         /// Creates a separate, but identical instance.
         /// <para>Same as <see cref="Deep_Copy(XAttribute)"/></para>
         /// </summary>
         /// <remarks>
-        /// <inheritdoc cref="L0053.Documentation.WhichXObjectsAreCloneable" path="/summary"/>
+        /// <inheritdoc cref="XmlDocumentation.WhichXObjectsAreCloneable" path="/summary"/>
         /// </remarks>
         public XAttribute Clone(XAttribute element)
         {
@@ -32,7 +35,7 @@ namespace R5T.L0030
         /// <para>Same as <see cref="Clone(XAttribute)"/></para>
         /// </summary>
         /// <remarks>
-        /// <inheritdoc cref="L0053.Documentation.WhichXObjectsAreCloneable" path="/summary"/>
+        /// <inheritdoc cref="XmlDocumentation.WhichXObjectsAreCloneable" path="/summary"/>
         /// </remarks>
         public XAttribute Deep_Copy(XAttribute element)
         {
@@ -69,14 +72,6 @@ namespace R5T.L0030
         {
             var output = this.New_Attribute(attributeName, Instances.Values.DefaultAttributeValue);
             return output;
-        }
-
-        /// <summary>
-        /// A helpfully named wrapper for <see cref="XAttribute.SetValue(object)"/>.
-        /// </summary>
-        public void Set_Value(XAttribute attribute, object value)
-        {
-            attribute.SetValue(value);
         }
 
         public IEnumerable<XAttribute> Where_NameIs(IEnumerable<XAttribute> attributes, IAttributeName attributeName)

@@ -61,7 +61,7 @@ namespace R5T.L0030.Extensions
                 elementName);
         }
 
-        /// <inheritdoc cref="IXContainerOperator.Enumerate_Children(XContainer)"/>
+        /// <inheritdoc cref="L0066.IXContainerOperator.Enumerate_Children(XContainer)"/>
         public static IEnumerable<XElement> Get_Children(this XContainer container)
         {
             return Instances.XContainerOperator.Enumerate_Children(container);
