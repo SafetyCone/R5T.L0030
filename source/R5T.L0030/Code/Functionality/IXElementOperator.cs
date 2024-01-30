@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
+using R5T.L0089.T000;
 using R5T.T0132;
 using R5T.T0181;
 using R5T.T0203;
 using R5T.T0203.Extensions;
-using R5T.T0221;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
@@ -205,7 +205,7 @@ namespace R5T.L0030
             IAttributeName attributeName)
         {
             var output = this.Has_Attribute(element, attributeName)
-                .ResultOrExceptionIfNotFound();
+                .Get_Result_OrExceptionIfNotFound();
 
             return output;
         }

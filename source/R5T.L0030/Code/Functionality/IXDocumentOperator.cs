@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 using R5T.L0030.T000;
+using R5T.L0089.T000;
 using R5T.T0132;
 using R5T.T0181;
 using R5T.T0203;
-using R5T.T0221;
 
 using XmlDocumentation = R5T.Y0006.Documentation.ForXml;
 
@@ -56,7 +56,7 @@ namespace R5T.L0030
             return this.Has_Root(
                 document,
                 rootElementName)
-                .ResultOrExceptionIfNotFound(
+                .Get_Result_OrExceptionIfNotFound(
                     () => $"No root element with name {rootElementName} found.");
         }
 

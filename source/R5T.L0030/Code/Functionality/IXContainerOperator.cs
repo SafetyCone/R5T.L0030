@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
+using R5T.L0089.T000;
 using R5T.T0132;
 using R5T.T0179.Extensions;
-using R5T.T0221;
 
 using R5T.L0030.Extensions;
 using R5T.L0030.T000;
@@ -101,7 +101,7 @@ namespace R5T.L0030
             var child = this.Has_Child(
                 container,
                 childName)
-                .ResultOrExceptionIfNotFound(() => $"Container had no '{childName}' child.");
+                .Get_Result_OrExceptionIfNotFound(() => $"Container had no '{childName}' child.");
 
             return child;
         }
