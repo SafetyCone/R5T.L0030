@@ -42,11 +42,6 @@ namespace R5T.L0030
             return this.Clone(element);
         }
 
-        public string Get_Value(XAttribute attribute)
-        {
-            return attribute.Value;
-        }
-
         /// <summary>
         /// Uses the <see cref="XName.LocalName"/> property to avoid the crazed namespace BS.
         /// </summary>

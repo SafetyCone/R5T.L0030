@@ -221,21 +221,6 @@ namespace R5T.L0030
             return output;
         }
 
-        /// <summary>
-        /// Gets the inner XML of the element (text including XML tags).
-        /// To get the inner text of the element, without any XML tags, use <see cref="Get_Value(XElement)"/>.
-        /// </summary>
-        // Source: https://stackoverflow.com/questions/3793/best-way-to-get-innerxml-of-an-xelement
-        public string Get_InnerXml(XElement element)
-        {
-            using var reader = element.CreateReader();
-
-            reader.MoveToContent();
-
-            var output = reader.ReadInnerXml();
-            return output;
-        }
-
         public string Get_Name(XElement xElement)
         {
             var name = xElement.Name.LocalName;
@@ -285,16 +270,6 @@ namespace R5T.L0030
                 .Reverse()
             ).Reverse();
 
-            return output;
-        }
-
-        /// <summary>
-        /// Gets the inner text of the element, without any XML tags.
-        /// To get the inner XML of the element (text including XML tags), use <see cref="Get_InnerXml(XElement)"/>.
-        /// </summary>
-        public string Get_Value(XElement element)
-        {
-            var output = element.Value;
             return output;
         }
 
