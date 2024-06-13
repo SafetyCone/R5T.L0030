@@ -251,7 +251,7 @@ namespace R5T.L0030
         /// Orders child nodes by name.
         /// </summary>
         /// <remarks>
-        /// <inheritdoc cref="F0000.IOrderOperator.OrderByNames{TElement}(IEnumerable{TElement}, Func{TElement, string}, string[])" path="/summary"/>
+        /// <inheritdoc cref="L0066.IOrderOperator.Order_ByNames{TElement}(IEnumerable{TElement}, Func{TElement, string}, string[])" path="/summary"/>
         /// </remarks>
         public void OrderChildren_ByNames(
             XContainer container,
@@ -259,7 +259,7 @@ namespace R5T.L0030
         {
             var children = container.Get_Children();
 
-            var orderedChildren = Instances.OrderOperator.OrderByNames(
+            var orderedChildren = Instances.OrderOperator.Order_ByNames(
                 children,
                 child => child.Get_Name(),
                 names

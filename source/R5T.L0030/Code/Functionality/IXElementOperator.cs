@@ -221,12 +221,6 @@ namespace R5T.L0030
             return output;
         }
 
-        public string Get_Name(XElement xElement)
-        {
-            var name = xElement.Name.LocalName;
-            return name;
-        }
-
         public void Remove_LeadingAndTrailingWhitespaceNodes(XElement element)
         {
             var nodesToKeep = this.Get_Nodes_ExceptLeadingAndTrailingWhitespaceNodes(element);
