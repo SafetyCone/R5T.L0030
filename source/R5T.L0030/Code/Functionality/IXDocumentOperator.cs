@@ -43,12 +43,6 @@ namespace R5T.L0030
             return this.Clone(document);
         }
 
-        public XElement Get_Root(XDocument document)
-        {
-            return this.Has_Root(document)
-                .Get_Result();
-        }
-
         public XElement Get_Root(
             XDocument document,
             IElementName rootElementName)
@@ -62,11 +56,11 @@ namespace R5T.L0030
 
         public WasFound<XElement> Has_Root(XDocument document)
         {
-            var rootElement = document.Root;
+            var hasRoot = this.Has_Root(
+                document,
+                out var root_OrDefault);
 
-            var rootExists = Instances.NullOperator.Is_NotNull(rootElement);
-
-            var output = WasFound.From(rootExists, rootElement);
+            var output = WasFound.From(hasRoot, root_OrDefault);
             return output;
         }
 
@@ -141,17 +135,6 @@ namespace R5T.L0030
             return this.Save(
                 xmlFilePath.Value,
                 document,
-                saveOptions);
-        }
-
-        public Task Save(
-            string xmlFilePath,
-            XDocument document,
-            SaveOptions saveOptions = ISaveOptionsSets.Default_Constant)
-        {
-            return Instances.XmlOperator_F0000.WriteToFile_EmptyIsOk(
-                document,
-                xmlFilePath,
                 saveOptions);
         }
 
