@@ -404,7 +404,12 @@ namespace R5T.L0030
                 xElement);
         }
 
-        public Task To_File(
+        /// <summary>
+        /// Writes an <see cref="XElement"/> to a file using the standard XML writer settings (<see cref="L0053.IXmlWriterSettingsSets.Standard"/>).
+        /// <para>Hides the <see cref="L0066.IXElementOperator.To_File(string, XElement)"/> method:</para>
+        /// <para><inheritdoc cref="L0066.IXElementOperator.To_File(string, XElement)" path="descendant::description"/></para>
+        /// </summary>
+        public new Task To_File(
             string xmlFilePath,
             XElement xElement)
         {
