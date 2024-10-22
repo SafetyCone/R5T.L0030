@@ -7,7 +7,7 @@ using R5T.T0132;
 
 using R5T.L0030.T000;
 
-using XmlDocumentation = R5T.Y0006.Documentation.ForXml;
+using XmlDocumentation = R5T.Y0006.Documentation.For_Xml;
 
 
 namespace R5T.L0030
