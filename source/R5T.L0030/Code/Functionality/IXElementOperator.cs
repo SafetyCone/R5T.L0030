@@ -405,7 +405,7 @@ namespace R5T.L0030
         }
 
         /// <summary>
-        /// Writes an <see cref="XElement"/> to a file using the standard XML writer settings (<see cref="L0053.IXmlWriterSettingsSets.Standard"/>).
+        /// Writes an <see cref="XElement"/> to a file using the standard XML writer settings (<see cref="L0053.IXmlWriterSettingsSet.Standard"/>).
         /// <para>Hides the <see cref="L0066.IXElementOperator.To_File(string, XElement)"/> method:</para>
         /// <para><inheritdoc cref="L0066.IXElementOperator.To_File(string, XElement)" path="descendant::description"/></para>
         /// </summary>
@@ -416,7 +416,7 @@ namespace R5T.L0030
             return this.To_File(
                 xmlFilePath,
                 xElement,
-                Instances.XmlWriterSettingsSets.Standard);
+                Instances.XmlWriterSettingsSet.Standard);
         }
 
         public void To_File_Synchronous(
@@ -437,7 +437,7 @@ namespace R5T.L0030
             this.To_File_Synchronous(
                 xmlFilePath,
                 xElement,
-                Instances.XmlWriterSettingsSets.Standard);
+                Instances.XmlWriterSettingsSet.Standard);
         }
 
         public void To_File_AsIs_Synchronous(
@@ -447,7 +447,7 @@ namespace R5T.L0030
             this.To_File_Synchronous(
                 xmlFilePath,
                 xElement,
-                Instances.XmlWriterSettingsSets.Standard);
+                Instances.XmlWriterSettingsSet.Standard);
         }
 
         /// <summary>
@@ -470,9 +470,9 @@ namespace R5T.L0030
             return output;
         }
 
-        public string To_Text(XElement xElement)
+        public new string To_Text(XElement xElement)
         {
-            var writerSettings = Instances.XmlWriterSettingsSets.Standard;
+            var writerSettings = Instances.XmlWriterSettingsSet.Standard;
 
             var output = this.To_Text(
                 xElement,
@@ -504,7 +504,7 @@ namespace R5T.L0030
 
         public string To_Text(IEnumerable<XElement> xElements)
         {
-            var writerSettings = Instances.XmlWriterSettingsSets.Standard;
+            var writerSettings = Instances.XmlWriterSettingsSet.Standard;
 
             var output = this.To_Text(
                 xElements,

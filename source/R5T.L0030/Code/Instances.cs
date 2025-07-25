@@ -12,7 +12,7 @@ namespace R5T.L0030
         public static F0000.IFileStreamOperator FileStreamOperator => F0000.FileStreamOperator.Instance;
         public static F0000.IFileSystemOperator FileSystemOperator => F0000.FileSystemOperator.Instance;
         public static ILoadOptionsSets LoadOptionsSets => L0030.LoadOptionsSets.Instance;
-        public static F0000.INullOperator NullOperator => F0000.NullOperator.Instance;
+        public static L0066.INullOperator NullOperator => L0066.NullOperator.Instance;
         public static F0000.IOrderOperator OrderOperator => F0000.OrderOperator.Instance;
         public static ISaveOptionsSets SaveOptionsSets => L0030.SaveOptionsSets.Instance;
         public static F0000.ITextOperator TextOperator => F0000.TextOperator.Instance;
@@ -23,8 +23,8 @@ namespace R5T.L0030
         public static IXElementOperator XElementOperator => L0030.XElementOperator.Instance;
         public static F0000.IXmlOperator XmlOperator_F0000 => F0000.XmlOperator.Instance;
         public static IXmlOperator XmlOperator => L0030.XmlOperator.Instance;
-        public static IXmlWriterSettingsSets XmlWriterSettingsSets => L0030.XmlWriterSettingsSets.Instance;
-        public static IXmlWriterSettingsOperator XmlWriterSettingsOperator => L0030.XmlWriterSettingsOperator.Instance;
+        public static L0053.IXmlWriterSettingsSet XmlWriterSettingsSet => L0053.XmlWriterSettingsSet.Instance;
+        public static L0053.IXmlWriterSettingsOperator XmlWriterSettingsOperator => L0053.XmlWriterSettingsOperator.Instance;
         public static IXNodeOperator XNodeOperator => L0030.XNodeOperator.Instance;
         public static IXObjectOperator XObjectOperator => L0030.XObjectOperator.Instance;
     }
