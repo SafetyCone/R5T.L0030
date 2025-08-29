@@ -49,13 +49,13 @@ namespace R5T.L0030
             return Instances.XDocumentOperator.Deep_Copy(document);
         }
 
-        /// <inheritdoc cref="L0066.IXElementOperator.Clone(XElement)"/>
+        /// <inheritdoc cref="F10Y.L0000.IXElementOperator.Clone(XElement)"/>
         public XElement Clone(XElement element)
         {
             return Instances.XElementOperator.Clone(element);
         }
 
-        /// <inheritdoc cref="L0066.IXElementOperator.Deep_Copy(XElement)"/>
+        /// <inheritdoc cref="F10Y.L0000.IXElementOperator.Deep_Copy(XElement)"/>
         public XElement Deep_Copy(XElement element)
         {
             return Instances.XElementOperator.Deep_Copy(element);
